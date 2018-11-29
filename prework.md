@@ -1,4 +1,4 @@
-# Pets and People Prework
+# Pets and Customers Prework
 
 ## Iteration 1
 
