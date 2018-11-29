@@ -1,6 +1,6 @@
 # Practice Paired Assessment
 
-This is an example Paired Assessment for Turing's Back End Module 1 students to reference and practice.
+This is an example of a Paired Assessment for Turing's Back End Module 1 students to reference and practice.
 
 ## Assessment Format
 
