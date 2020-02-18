@@ -8,7 +8,7 @@ Use TDD to create a `Pet` class that repsonds to the following interaction patte
 pry(main)> require './lib/pet'
 # => true
 
-pry(main)> samson = Pet.new({name: "Samson", type: :dog})    
+pry(main)> samson = Pet.new({name: "Samson", type: :dog, age: 3})    
 # => #<Pet:0x00007fb68d9f99f8...>
 
 pry(main)> samson.name
@@ -16,6 +16,9 @@ pry(main)> samson.name
 
 pry(main)> samson.type
 # => :dog
+
+pry(main)> samson.age
+# => 3
 
 pry(main)> samson.fed?
 # => false
@@ -49,10 +52,10 @@ pry(main)> joel.id
 pry(main)> joel.pets
 # => []
 
-pry(main)> samson = Pet.new({name: "Samson", type: :dog})
+pry(main)> samson = Pet.new({name: "Samson", type: :dog, age: 3})
 # => #<Pet:0x00007ff8dc1f86a0...>
 
-pry(main)> lucy = Pet.new({name: "Lucy", type: :cat})    
+pry(main)> lucy = Pet.new({name: "Lucy", type: :cat, age: 12})    
 # => #<Pet:0x00007ff8dc93e108...>
 
 pry(main)> joel.adopt(samson)
