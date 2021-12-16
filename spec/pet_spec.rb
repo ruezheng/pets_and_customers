@@ -1,27 +1,26 @@
-require 'minitest/autorun'
-require 'minitest/pride'
 require './lib/pet'
 
-class PetTest < Minitest::Test
-  def test_it_exists
-    samson = Pet.new({name: "Samson", type: :dog})
-    assert_instance_of Pet, samson
+RSpec.describe Pet do
+  before(:each) do
+    @samson = Pet.new({name: "Samson", type: :dog})
   end
 
-  def test_it_has_attributes
-    samson = Pet.new({name: "Samson", type: :dog})
-    assert_equal "Samson", samson.name
-    assert_equal :dog, samson.type
+  it "exists" do
+    expect(@samson).to be_instance_of(Pet)
   end
 
-  def test_it_is_not_fed_by_default
-    samson = Pet.new({name: "Samson", type: :dog})
-    assert_equal false, samson.fed?
+  it "has attributes" do
+    expect(@samson.name).to eq("Samson")
+    expect(@samson.type).to eq(:dog)
   end
 
-  def test_it_can_be_fed
-    samson = Pet.new({name: "Samson", type: :dog})
-    samson.feed
-    assert_equal true, samson.fed?
+  it "is not fed by default" do
+    expect(@samson.fed?).to be(false)
   end
+
+  it "can be fed" do
+    @samson.feed
+    expect(@samson.fed?).to be(true)
+  end
+
 end
