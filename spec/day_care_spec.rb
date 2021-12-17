@@ -9,7 +9,7 @@ RSpec.describe DayCare do
 
   describe "Object" do
     it "exists" do
-      expect(day_care).to be_instance_of(DayCare)
+      expect(@day_care).to be_instance_of(DayCare)
     end
 
     it "has a name" do
