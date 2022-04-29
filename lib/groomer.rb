@@ -8,10 +8,10 @@ class Groomer
   end
 
   def add_customer(customer)
-    @customers << customer
+      @customers << customer
   end
 
-  def customers_with_oustanding_balances
+  def customer_debt
     @customers.find_all do |customer|
       customer.outstanding_balance != 0
     end

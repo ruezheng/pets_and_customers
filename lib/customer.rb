@@ -6,7 +6,7 @@ class Customer
 
   def initialize(name, id)
     @name = name
-    @id = id
+    @id = id.to_i
     @pets = []
     @outstanding_balance = 0
   end

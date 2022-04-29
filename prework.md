@@ -2,7 +2,7 @@
 
 ## Iteration 1
 
-Use TDD to create a `Pet` class that repsonds to the following interaction pattern:
+Use TDD to create a `Pet` class that responds to the following interaction pattern:
 
 ```ruby
 pry(main)> require './lib/pet'
