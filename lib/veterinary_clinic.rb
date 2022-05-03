@@ -1,12 +1,8 @@
-# * A Veterinarian can list all pets under their care; sorted by age (oldest to youngest)
-
-# * A Veterinarian can count the number of pets of a given customer.
-#
-# Build upon your code from the first two iterations to complete this task.
-
+# Iteration 3
 
 class Veterinarian
-  attr_reader :name, :customers
+  attr_reader :name,
+              :customers
 
   def initialize(name)
     @name = name
@@ -17,34 +13,16 @@ class Veterinarian
     @customers << customer
   end
 
-  # def pets_per_customer(id)
-  #   pets = []
-  #   @customers.find do |customer|
-  #     pets = customer.pets if customer.id == id
-  #   end
-  #   pets
-  # end
-
-  def pets_per_customer(id)
-    @customers.find do |customer|
-      customer.id == id
-    end.pets
-  end
-
-  def all_pets_by_age
-    all_pets = @customers.flat_map do |customer|
-      customer.pets
-    end
-    all_pets.sort_by do |pet|
+  def all_pets_by_age                        # A Veterinarian can list all pets under their care; sorted by age (oldest to youngest)
+    pets = @customers.flat_map { |customer| customer.pets }
+    pets.sort_by do |pet|
       pet.age
     end.reverse
   end
 
-  def number_of_pets(id)
-    @customers.find do |customer|
-      customer.pets
+  def num_of_pets(customer)                 # A Veterinarian can count the number of pets of a given customer.
+    @customers.map do |customer|
+      customer.pets == customer
     end.count
   end
-
-
 end

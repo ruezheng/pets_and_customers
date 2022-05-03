@@ -7,14 +7,16 @@ class Pet
     @name = attributes[:name]
     @type = attributes[:type]
     @age = attributes[:age]
-    @feeding_status = false
-  end
-
-  def fed?
-    @feeding_status
+    @fed = false
   end
 
   def feed
-    @feeding_status = true
+    @fed = true
+  end
+
+  def fed?
+    @fed
   end
 end
+
+# DONE

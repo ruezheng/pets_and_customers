@@ -1,63 +1,45 @@
-require './lib/day_care'
-require './lib/customer'
 require './lib/pet'
+require './lib/customer'
+require './lib/day_care'
 
-RSpec.describe DayCare do
-  before(:each) do
-    @day_care = DayCare.new("The Dog Spot")
+describe DayCare do
+  let(:day_care) { DayCare.new("Fluff Stop") }
+  let(:veterinarian) { Veterinarian.new("Martha") }
+  let(:joel) { Customer.new("Joel", 2) }
+  let(:andi) { Customer.new("Andi", 1) }
+  let(:samson) { Pet.new({name: "Samson", type: :dog, age: 3}) }
+  let(:lucy) { Pet.new({name: "Lucy", type: :cat, age: 12}) }
+  let(:pickle) { Pet.new({name: "Pickle", type: :dog, age: 11}) }
+
+  it "exists and has attributes" do
+    expect(day_care).to be_a(DayCare)
+    expect(day_care.name).to eq("Fluff Stop")
+    expect(day_care.customers).to eq []
   end
 
-  describe "Object" do
-    it "exists" do
-      expect(@day_care).to be_instance_of(DayCare)
-    end
+  it "can add customers" do
+    day_care.add_customer(joel)
+    day_care.add_customer(andi)
 
-    it "has a name" do
-      expect(@day_care.name).to eq("The Dog Spot")
-    end
-
-    it "starts with no customers" do
-      expect(@day_care.customers).to eq([])
-    end
+    expect(day_care.customers).to eq [joel, andi]
   end
 
-  describe "Integrations with Pets and Customers" do
-    before(:each) do
-      @joel = Customer.new("Joel", 2)
-      @billy = Customer.new("Billy", 3)
-      @samson = Pet.new({name: "Samson", type: :dog})
-      @lucy = Pet.new({name: "Lucy", type: :cat})
-      @molly = Pet.new({name: "Molly", type: :cat})
-    end
+  it "can find a customer by customer id" do
+    day_care.add_customer(joel)
+    day_care.add_customer(andi)
 
-    it "can add customers" do
-      @day_care.add_customer(@joel)
-      @day_care.add_customer(@billy)
-      expect(@day_care.customers).to eq([@joel, @billy])
-    end
-
-    it "can list unfed pets" do
-      @joel.adopt(@samson)
-      @joel.adopt(@lucy)
-      @billy.adopt(@molly)
-
-      @day_care.add_customer(@joel)
-      @day_care.add_customer(@billy)
-
-      @lucy.feed
-
-      expect(@day_care.unfed_pets).to eq([@samson, @molly])
-
-    end
-
-    it "can find customer by id" do
-      @joel.charge(10)
-
-      @day_care.add_customer(@joel)
-      @day_care.add_customer(@billy)
-
-      expect(@day_care.customer_by_id(2)).to eq(@joel)
-    end
+    expect(day_care.customer_id(1)).to eq(andi)
   end
 
+  it "can list all pets that are unfed" do
+    day_care.add_customer(joel)
+    day_care.add_customer(andi)
+    joel.adopt(samson)
+    joel.adopt(lucy)
+    andi.adopt(pickle)
+    samson.feed
+    pickle.feed
+
+    expect(day_care.unfed_pets).to eq [lucy]
+  end
 end

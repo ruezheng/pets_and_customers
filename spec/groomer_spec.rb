@@ -1,66 +1,66 @@
-∑require './lib/groomer'
-require './lib/customer'
-require './lib/pet'
-require './lib/groomer'
+  require './lib/pet'
+  require './lib/customer'
+  require './lib/groomer'
 
-describe Groomer do
-  before :each do
-    @groomer = Groomer.new('fluff_stop')
+  describe Groomer do
+  let(:groomer) { Groomer.new("Bobbie") }
+  let(:joel) { Customer.new("Joel", 2) }
+  let(:andi) { Customer.new("Andi", 1) }
+  let(:josie) { Customer.new("Josie", 3) }
+  let(:samson) { Pet.new({name: "Samson", type: :dog, age: 3}) }
+  let(:lucy) { Pet.new({name: "Lucy", type: :cat, age: 12}) }
+  let(:pickle) { Pet.new({name: "Pickle", type: :dog, age: 11}) }
+
+  it "exists and has attributes" do
+    expect(groomer).to be_a(Groomer)
+    expect(groomer.name).to eq("Bobbie")
+    expect(groomer.customers).to eq []
   end
 
-  describe "Object" do
-    it "exists" do
-      expect(@groomer).to be_an_instance_of(Groomer)
-    end
+  it "can add multiple customers" do
+    groomer.add_customer(joel)
+    groomer.add_customer(andi)
 
-    it "has attributes" do
-      expect(@groomer.name).to eq 'fluff_stop'
-    end
-
-    it "starts with no customers" do
-      expect(@groomer.customers).to eq []
-    end
+    expect(groomer.customers).to eq [joel, andi]
   end
 
-  describe "Integrating with Customers" do
-    before :each do
-      @judy = Customer.new("Judy", 2)
-      @bobbi = Customer.new("Bobbi", 4)
-      @samson = Pet.new({name: "Samson", type: :dog, age: 3})
-      @pickle = Pet.new({name: "Pickle", type: :dog, age: 11})
-      @kuma = Pet.new({name: "Kuma", type: :dog, age: 8})
-    end
+  it "can return a hash with customers as keys and an array of their pets as values" do
+    joel.adopt(samson)
+    joel.adopt(lucy)
+    andi.adopt(pickle)
+    groomer.add_customer(joel)
+    groomer.add_customer(andi)
 
-    it "can add customers" do
-      @groomer.add_customer(@bobbi)
-      @groomer.add_customer(@judy)
+    expected = {
+     joel => [samson, lucy],
+     andi => [pickle]
+    }
+    expect(groomer.pets_by_customer).to eq expected
+  end
 
-      expect(@groomer.customers).to eq [@bobbi, @judy]
-    end
+  it "can calculate the outstanding_balance of customer" do
+    joel.adopt(samson)
+    joel.adopt(lucy)
+    andi.adopt(pickle)
+    groomer.add_customer(joel)
+    groomer.add_customer(andi)
+    groomer.add_customer(josie)
 
-    it "can have multiple pets" do
-      @judy.adopt(@pickle)
-      @judy.adopt(@kuma)
+    joel.charge(15)
+    joel.charge(7)
+    andi.charge(10)
 
-      expect(@judy.pets).to eq [@pickle, @kuma]
-    end
+    expect(groomer.customer_debt).to eq [joel, andi]
+  end
 
-    it "can find all customers with outstanding balances" do
-      @bobbi.charge(55)
-      @judy.charge(29)
-      @groomer.add_customer(@bobbi)
-      @groomer.add_customer(@judy)
+  it "can count the number of pets per type" do
+    joel.adopt(samson)
+    joel.adopt(lucy)
+    andi.adopt(pickle)
+    groomer.add_customer(joel)
+    groomer.add_customer(andi)
+    groomer.add_customer(josie)
 
-      expect(@groomer.customer_debt).to eq [@bobbi, @judy]
-    end
-
-    it "can count the number of pets per type" do
-      @judy.adopt(@pickle)
-      @judy.adopt(@kuma)
-      @groomer.add_customer(@bobbi)
-      @groomer.add_customer(@judy)
-
-      expect(@groomer.number_of_pets(:dog)).to eq 2
-    end
+    expect(groomer.num_of_pets(:dog)).to eq(2)
   end
 end

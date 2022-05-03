@@ -11,18 +11,14 @@ class DayCare
     @customers << customer
   end
 
-  def customer_by_id(id)
+  def customer_id(id)                       # A Day Care can find a customer by the customer's id
     @customers.find do |customer|
       customer.id == id
     end
   end
 
-  def unfed_pets
-    pets = @customers.map do |customer|
-      customer.pets
-    end.flatten
-    pets.find_all do |pet|
-      !pet.fed?
-    end
+  def unfed_pets                            # * A Day Care can list all pets that are unfed
+    pets = @customers.flat_map { |customer| customer.pets }
+    pets.select { |pet| pet if !pet.fed? }
   end
 end
